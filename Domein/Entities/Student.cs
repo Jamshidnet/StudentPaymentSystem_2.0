@@ -11,7 +11,7 @@ public class Student : BaseAuditableEntity
     public string? Address { get; set; }
 
     public string? PhoneNumber { get; set; }
+    public ICollection<Course> Courses { get; set; }
 
     public ICollection<Payment> Payments { get; set; }
-    public ICollection<Course> Courses { get; set; }
 }

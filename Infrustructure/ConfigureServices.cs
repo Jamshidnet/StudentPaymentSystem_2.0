@@ -18,10 +18,13 @@ public static class ConfigureServices
         });
 
         services.AddScoped<AuditableEntitySaveChangesInterceptor>();
+        
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 
         services.AddTransient<IDateTime, DateTimeService>();
+        
         services.AddTransient<IGuidGenerator, GuidGeneratorService>();
+        
         return services;
     }
 }

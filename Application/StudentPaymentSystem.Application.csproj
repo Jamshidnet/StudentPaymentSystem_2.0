@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -28,7 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UseCases\" />
+    <Folder Include="UseCases\Invoices\" />
+    <Folder Include="UseCases\Teachers\" />
+    <Folder Include="UseCases\Payments\" />
   </ItemGroup>
 
 </Project>
