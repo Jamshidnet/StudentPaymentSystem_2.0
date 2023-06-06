@@ -27,10 +27,4 @@
     <ProjectReference Include="..\Domein\StudentPaymentSystem.Domein.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UseCases\Invoices\" />
-    <Folder Include="UseCases\Teachers\" />
-    <Folder Include="UseCases\Payments\" />
-  </ItemGroup>
-
 </Project>

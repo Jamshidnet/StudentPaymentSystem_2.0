@@ -11,8 +11,10 @@ public class Invoice : BaseAuditableEntity
      
     public decimal TotalAmount { get; set; }
 
+    public ICollection<Payment> Payments { get; set; }
+
+    
     [ForeignKey("CourseID")]
     public virtual Course Course { get; set; }
 
-    public ICollection<Payment> Payments { get; set; }
 }

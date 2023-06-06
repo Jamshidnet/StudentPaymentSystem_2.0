@@ -1,16 +1,21 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StudentPaymentSystem.Application.UseCases.Courses.Models;
+using StudentPaymentSystem.Application.UseCases.Invoices.Models;
+using StudentPaymentSystem.Application.UseCases.Payments.Models;
+using StudentPaymentSystem.Application.UseCases.Students.Models;
+using StudentPaymentSystem.Application.UseCases.Teachers.Models;
+using StudentPaymentSystem.Domein.Entities;
 
-namespace StudentPaymentSystem.Application.Common.Mapping
+namespace StudentPaymentSystem.Application.Common.Mapping;
+
+public class MappingProfile : Profile
 {
-    public class MappingProfile : Profile
+    public MappingProfile()
     {
-        public MappingProfile() { 
-        CreateMap<>
-        }
+        CreateMap<Course, CourseDto>().ReverseMap();
+        CreateMap<Invoice,InvoiceDto>().ReverseMap();
+        CreateMap<Payment, PaymentDto>().ReverseMap();
+        CreateMap<Student, StudentDto>().ReverseMap();
+        CreateMap<Teacher, TeacherDto>().ReverseMap();
     }
 }

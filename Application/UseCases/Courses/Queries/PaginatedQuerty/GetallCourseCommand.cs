@@ -8,14 +8,14 @@ using StudentPaymentSystem.Domein.Entities;
 
 namespace StudentPaymentSystem.Application.UseCases.Courses.Queries.PaginatedQuerty;
 
-public record GetallCourseCommand
+public record GetallCourseQuery
 : IRequest<PaginatedList<CourseDto>>
 {
     public int PageNumber { get; init; } = 1;
     public int PageSize { get; init; } = 10;
 }
 
-public class GetallCourseCommmandHandler : IRequestHandler<GetallCourseCommand, PaginatedList<CourseDto>>
+public class GetallCourseCommmandHandler : IRequestHandler<GetallCourseQuery, PaginatedList<CourseDto>>
 {
 
     IApplicationDbContext _dbContext;
@@ -27,7 +27,7 @@ public class GetallCourseCommmandHandler : IRequestHandler<GetallCourseCommand, 
         _mapper = mapper;
     }
 
-    public async Task<PaginatedList<CourseDto>> Handle(GetallCourseCommand request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<CourseDto>> Handle(GetallCourseQuery request, CancellationToken cancellationToken)
     {
         Course[] orders = await _dbContext.Courses.Include(x => x.Students).ToArrayAsync();
 
