@@ -1,10 +1,8 @@
-using Serilog.Events;
 using Serilog;
 using StudentPaymentSystem.Infrustructure;
-using Serilog.Sinks.TelegramBot;
 using StudentPaymentSystem.Application;
 using StudentPaymentSystem_2._0.Logging;
-using StudentPaymentSystem_2._0;
+using StudentPaymentSystem_2._0.RataLimiters;
 
 internal class Program
 {
@@ -13,11 +11,12 @@ internal class Program
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         var builder = WebApplication.CreateBuilder(args);
         IConfiguration configuration = builder.Configuration;
-       LoggingConfigurations.UseLogging(configuration);
+      // LoggingConfigurations.UseLogging(configuration);
         ConfigurationServices.AddRateLimiters(builder);
         // Add services to the container.
         builder.Host.UseSerilog();
         builder.Services.AddControllers();
+        builder.Services.AddLazyCache();
         builder.Services.AddInfrastructureService(builder.Configuration);
         builder.Services.AddApplicationService();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -33,7 +32,7 @@ internal class Program
         }
         app.UseRateLimiter();
         app.UseHttpsRedirection();
-
+       
         app.UseAuthorization();
 
         app.MapControllers();

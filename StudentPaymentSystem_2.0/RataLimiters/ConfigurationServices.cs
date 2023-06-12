@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
 
-namespace StudentPaymentSystem_2._0
+namespace StudentPaymentSystem_2._0.RataLimiters
 {
     public static class ConfigurationServices
     {

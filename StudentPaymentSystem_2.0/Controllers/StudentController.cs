@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using LazyCache;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using StudentPaymentSystem.Application.Common.Models;
 using StudentPaymentSystem.Application.UseCases.Students.Commands.CreateStudent;
 using StudentPaymentSystem.Application.UseCases.Students.Commands.DeleteStudent;
@@ -11,6 +13,11 @@ namespace StudentPaymentSystem_2._0.Controllers;
 
 public class StudentController : ApiBaseController
 {
+    public StudentController(IAppCache appCache)
+    {
+        _appCache = appCache;
+    }
+
     [HttpPost]
     public async ValueTask<ActionResult<GetAllStudentDto>> StudentStudentAsync(CreateStudentCommand command)
     {
@@ -28,7 +35,12 @@ public class StudentController : ApiBaseController
     [HttpGet]
     public async ValueTask<ActionResult<PaginatedList<StudentDto>>> GetStudentsWithPaginated([FromQuery] GetAllStudentQuery query)
     {
-        return await Mediator.Send(query);
+        return await _appCache.GetOrAddAsync(My_Key,
+           async x =>
+           {
+               x.SetAbsoluteExpiration(TimeSpan.FromSeconds(20));
+               return Ok(await Mediator.Send(query));
+           });
     }
 
     [HttpPut]
