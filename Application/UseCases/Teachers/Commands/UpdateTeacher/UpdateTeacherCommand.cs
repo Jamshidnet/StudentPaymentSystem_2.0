@@ -33,7 +33,7 @@ public class UpdateTeacherCommandHandler : IRequestHandler<UpdateTeacherCommand,
         teacher.FirstName = request.FirstName;
         teacher.LastName = request.LastName;
 
-        await _dbContext.UpdateAsync(teacher);
+         _dbContext.Teachers.Update(teacher);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         return _mapper.Map<TeacherDto>(teacher);

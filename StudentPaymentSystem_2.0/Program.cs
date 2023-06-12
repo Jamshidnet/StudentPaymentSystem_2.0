@@ -2,6 +2,7 @@ using Serilog.Events;
 using Serilog;
 using StudentPaymentSystem.Infrustructure;
 using Serilog.Sinks.TelegramBot;
+using StudentPaymentSystem.Application;
 
 internal class Program
 {
@@ -23,6 +24,7 @@ internal class Program
 
         builder.Services.AddControllers();
         builder.Services.AddInfrastructureService(builder.Configuration);
+        builder.Services.AddApplicationService();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();

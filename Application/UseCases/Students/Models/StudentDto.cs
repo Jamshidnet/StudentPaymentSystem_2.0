@@ -1,5 +1,4 @@
-﻿using StudentPaymentSystem.Domein.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StudentPaymentSystem.Application.UseCases.Students.Models
 {
-    public class StudentDto
+    public  class StudentDto
     {
         public Guid Id { get; set; }
         public string? FirstName { get; set; }
@@ -17,6 +16,5 @@ namespace StudentPaymentSystem.Application.UseCases.Students.Models
         public string? Address { get; set; }
 
         public string? PhoneNumber { get; set; }
-        public ICollection<Course> Courses { get; set; }
     }
 }

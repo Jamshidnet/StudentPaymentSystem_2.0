@@ -7,7 +7,7 @@ using StudentPaymentSystem.Domein.Entities;
 
 namespace StudentPaymentSystem.Application.UseCases.Students.Commands.CreateStudent;
 
-public class CreateStudentCommand : IRequest<StudentDto>
+public class CreateStudentCommand : IRequest<GetAllStudentDto>
 {
     public string? FirstName { get; set; }
 
@@ -17,8 +17,9 @@ public class CreateStudentCommand : IRequest<StudentDto>
 
     public string? PhoneNumber { get; set; }
 
+    public ICollection<Guid> Courses { get; set; }
 }
-public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand, StudentDto>
+public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand, GetAllStudentDto>
 {
     IApplicationDbContext _dbContext;
     IMapper _mapper;
@@ -29,27 +30,39 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
         _mapper = mapper;
     }
 
-    public async Task<StudentDto> Handle(CreateStudentCommand request, CancellationToken cancellationToken)
+    public async Task<GetAllStudentDto> Handle(CreateStudentCommand request, CancellationToken cancellationToken)
     {
 
         FilterIfStudentExsists(request.PhoneNumber);
+        ICollection<Course>? courses = FilterIfAllStudentsExsist(request.Courses);
 
-        Student student = new Student()
+        Student student = new ()
         {
           FirstName=request.FirstName,
-
           LastName=request.LastName,
-
           Email=request.Email,
           Address=request.Address,
-          PhoneNumber=request.PhoneNumber
-          
+          PhoneNumber=request.PhoneNumber,
+          Courses=courses
         };
 
-        await _dbContext.AddAsync(student);
+        await  _dbContext.Students.AddAsync(student);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map<StudentDto>(student);
+        return _mapper.Map<GetAllStudentDto>(student);
+    }
+
+    private ICollection<Course> FilterIfAllStudentsExsist(ICollection<Guid> courses)
+    {
+        List<Course> maybeCourses = new();
+        foreach (Guid Id in courses)
+        {
+            var course = _dbContext.Courses.FirstOrDefault(c => c.Id == Id)
+                ?? throw new NotFoundException($" There is no course with this {Id} id. ");
+            maybeCourses.Add(course);
+        }
+
+        return maybeCourses;
     }
 
     private void FilterIfStudentExsists(string? PhoneNumber)

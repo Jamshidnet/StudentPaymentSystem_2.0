@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using StudentPaymentSystem.Application.Common.Exceptions;
 using StudentPaymentSystem.Application.Common.Interfaces;
 using StudentPaymentSystem.Application.UseCases.Teachers.Models;
@@ -31,7 +32,7 @@ public class GetTeacherQueryHandler : IRequestHandler<GetTeacherQuery, TeacherDt
 
     private Teacher FilterIfTeacherExsists(Guid id)
     {
-        Teacher? teacher = _dbContext.Teachers.FirstOrDefault(x => x.Id == id);
+        Teacher? teacher = _dbContext.Teachers.Include(x=>x.Courses).FirstOrDefault(x => x.Id == id);
 
         if (teacher is null)
         {

@@ -22,6 +22,7 @@ namespace StudentPaymentSystem.Infrustructure.Persistence
 
         }
 
+
         private readonly DbContextOptions<ApplicationDbContext>? options;
 
         public async ValueTask<T> AddAsync<T>(T @object)

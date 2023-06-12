@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using StudentPaymentSystem.Application.Common.Exceptions;
 using StudentPaymentSystem.Application.Common.Interfaces;
 using StudentPaymentSystem.Application.UseCases.Invoices.Models;
@@ -8,9 +9,9 @@ using StudentPaymentSystem.Domein.Entities;
 namespace StudentPaymentSystem.Application.UseCases.Invoices.Queries.GetInvoice;
 
 
-public record GetInvoiceQuery(Guid Id) : IRequest<InvoiceDto>;
+public record GetInvoiceQuery(Guid Id) : IRequest<GetAllInvoiceDto>;
 
-public class GetInvoiceQueryHandler : IRequestHandler<GetInvoiceQuery, InvoiceDto>
+public class GetInvoiceQueryHandler : IRequestHandler<GetInvoiceQuery, GetAllInvoiceDto>
 {
     IApplicationDbContext _dbContext;
     IMapper _mapper;
@@ -21,16 +22,16 @@ public class GetInvoiceQueryHandler : IRequestHandler<GetInvoiceQuery, InvoiceDt
         _mapper = mapper;
     }
 
-    public async Task<InvoiceDto> Handle(GetInvoiceQuery request, CancellationToken cancellationToken)
+    public async Task<GetAllInvoiceDto> Handle(GetInvoiceQuery request, CancellationToken cancellationToken)
     {
         Invoice invoice = FilterIfInvoiceExsists(request.Id);
 
-        return _mapper.Map<InvoiceDto>(invoice);
+        return _mapper.Map<GetAllInvoiceDto>(invoice);
     }
 
     private Invoice FilterIfInvoiceExsists(Guid id)
     {
-        Invoice? invoice = _dbContext.Invoices.FirstOrDefault(x => x.Id == id);
+        Invoice? invoice = _dbContext.Invoices.Include(x=>x.Payments).FirstOrDefault(x => x.Id == id);
 
         if (invoice is null)
         {

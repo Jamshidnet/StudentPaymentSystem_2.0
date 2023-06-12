@@ -30,7 +30,7 @@ public class GetallTeacherQueryHandler : IRequestHandler<GetallTeacherQuery, Pag
 
     public async Task<PaginatedList<TeacherDto>> Handle(GetallTeacherQuery request, CancellationToken cancellationToken)
     {
-        Teacher[] orders = await _dbContext.Teachers.Include(x => x.Courses).ToArrayAsync();
+        Teacher[] orders = await _dbContext.Teachers.ToArrayAsync();
 
         List<TeacherDto> dtos = _mapper.Map<TeacherDto[]>(orders).ToList();
 

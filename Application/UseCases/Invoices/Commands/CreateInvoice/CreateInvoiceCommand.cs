@@ -36,7 +36,7 @@ public class CreateInvoiceCommandHandler : IRequestHandler<CreateInvoiceCommand,
            TotalAmount=request.TotalAmount
         };
 
-        await _dbContext.AddAsync(invoice);
+        await _dbContext.Invoices.AddAsync(invoice);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         return _mapper.Map<InvoiceDto>(invoice);

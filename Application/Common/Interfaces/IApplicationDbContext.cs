@@ -12,7 +12,6 @@ public  interface IApplicationDbContext
     DbSet<Invoice> Invoices { get; }
     DbSet<Teacher> Teachers { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-
     ValueTask<T> AddAsync<T>(T @object);
     ValueTask<T?> GetAsync<T>(params object[] objectId) where T : class;
     IQueryable<T> GetAll<T>() where T : class;

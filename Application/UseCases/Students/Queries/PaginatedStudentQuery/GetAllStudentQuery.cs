@@ -8,7 +8,7 @@ using StudentPaymentSystem.Domein.Entities;
 
 namespace StudentPaymentSystem.Application.UseCases.Students.Queries.PaginatedStudentQuery;
 
-public  record GetAllStudentQuery(int PageNumber = 1, int PageSize = 10) : IRequest<PaginatedList<StudentDto>>;
+public record GetAllStudentQuery(int PageNumber = 1, int PageSize = 10) : IRequest<PaginatedList<StudentDto>>;
 
 public class GetallStudentCommmandHandler : IRequestHandler<GetAllStudentQuery, PaginatedList<StudentDto>>
 {

@@ -3,7 +3,7 @@ using StudentPaymentSystem.Application.UseCases.Students.Models;
 
 namespace StudentPaymentSystem.Application.UseCases.Students.Queries.GetStudent;
 
-public  class GetStudentQueryValidation : AbstractValidator<StudentDto>
+public  class GetStudentQueryValidation : AbstractValidator<GetAllStudentDto>
 {
     public GetStudentQueryValidation()
     {

@@ -36,7 +36,7 @@ public class GetallCourseCommmandHandler : IRequestHandler<GetallCourseQuery, Pa
         PaginatedList<CourseDto> paginatedList =
              PaginatedList<CourseDto>.CreateAsync(
                 dtos, request.PageNumber, request.PageSize);
-
+         
         return paginatedList;
     }
 }

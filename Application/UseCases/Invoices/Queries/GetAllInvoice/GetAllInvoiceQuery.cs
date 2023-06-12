@@ -30,7 +30,7 @@ public class GetallInvoiceCommmandHandler : IRequestHandler<GetAllInvoiceQuery, 
 
     public async Task<PaginatedList<InvoiceDto>> Handle(GetAllInvoiceQuery request, CancellationToken cancellationToken)
     {
-        Invoice[] orders = await _dbContext.Invoices.Include(x => x.Payments).ToArrayAsync();
+        Invoice[] orders = await _dbContext.Invoices.ToArrayAsync();
 
         List<InvoiceDto> dtos = _mapper.Map<InvoiceDto[]>(orders).ToList();
 

@@ -12,15 +12,15 @@ namespace StudentPaymentSystem_2._0.Controllers;
 public class CourseController : ApiBaseController
 {
     [HttpPost]
-    public async ValueTask<ActionResult<CourseDto>> CourseCourseAsync(CreateCourseCommand command)
+    public async ValueTask<ActionResult<GetallCourseDto>> CourseCourseAsync(CreateCourseCommand command)
     {
-        CourseDto dto = await Mediator.Send(command);
+        GetallCourseDto dto = await Mediator.Send(command);
 
         return Ok(dto);
     }
 
     [HttpGet("{courseId}")]
-    public async ValueTask<ActionResult<CourseDto>> GetCourseAsync(Guid courseId)
+    public async ValueTask<ActionResult<GetallCourseDto>> GetCourseAsync(Guid courseId)
     {
         return await Mediator.Send(new GetCourseQuery(courseId));
     }
@@ -32,13 +32,13 @@ public class CourseController : ApiBaseController
     }
 
     [HttpPut]
-    public async ValueTask<ActionResult<CourseDto>> PutCourseAsync(UpdateCourseCommand command)
+    public async ValueTask<ActionResult<GetallCourseDto>> PutCourseAsync(UpdateCourseCommand command)
     {
         return await Mediator.Send(command);
     }
 
     [HttpDelete("{courseId}")]
-    public async ValueTask<ActionResult<CourseDto>> DeleteCourseAsync(Guid courseId)
+    public async ValueTask<ActionResult<GetallCourseDto>> DeleteCourseAsync(Guid courseId)
     {
         return await Mediator.Send(new DeleteCourseCommand(courseId));
     }

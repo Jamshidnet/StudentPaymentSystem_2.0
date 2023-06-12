@@ -36,7 +36,7 @@ public class CreateTeacherCommandHandler : IRequestHandler<CreateTeacherCommand,
             LastName = request.LastName
         };
 
-        await _dbContext.AddAsync(teacher);
+        await _dbContext.Teachers.AddAsync(teacher);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         return _mapper.Map<TeacherDto>(teacher);

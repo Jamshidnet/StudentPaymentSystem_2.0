@@ -41,7 +41,7 @@ public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand,
          InvoiceId= request.InvoiceId
         };
 
-        await _dbContext.AddAsync(payment);
+        await _dbContext.Payments.AddAsync(payment);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         return _mapper.Map<PaymentDto>(payment);

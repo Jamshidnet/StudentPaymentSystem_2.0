@@ -12,10 +12,14 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<Course, CourseDto>().ReverseMap();
-        CreateMap<Invoice,InvoiceDto>().ReverseMap();
+        CreateMap<Course, GetallCourseDto>().ReverseMap();
+        CreateMap<Invoice,InvoiceDto>();
+        CreateMap<Invoice,GetAllInvoiceDto>().ReverseMap();
         CreateMap<Payment, PaymentDto>().ReverseMap();
-        CreateMap<Student, StudentDto>().ReverseMap();
+        CreateMap<Student, GetAllStudentDto>().ReverseMap();
         CreateMap<Teacher, TeacherDto>().ReverseMap();
+        CreateMap<Course, CourseDto>().ReverseMap();
+        CreateMap<Student, StudentDto>().ReverseMap();
     }
 }
+

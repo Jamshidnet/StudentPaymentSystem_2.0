@@ -19,7 +19,7 @@ public class InvoiceController : ApiBaseController
     }
 
     [HttpGet("{invoiceId}")]
-    public async ValueTask<ActionResult<InvoiceDto>> GetInvoiceAsync(Guid invoiceId)
+    public async ValueTask<ActionResult<GetAllInvoiceDto>> GetInvoiceAsync(Guid invoiceId)
     {
         return await Mediator.Send(new GetInvoiceQuery(invoiceId));
     }

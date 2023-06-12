@@ -13,7 +13,7 @@ public class Course : BaseAuditableEntity
 
     public decimal Fee { get; set; }
 
-    public ICollection<Student> Students { get; set; }
+    public ICollection<Student>? Students { get; set; }
   
     
     [ForeignKey("TeacherId")]

@@ -7,9 +7,9 @@ using StudentPaymentSystem.Domein.Entities;
 
 namespace StudentPaymentSystem.Application.UseCases.Courses.Commands.DeleteCourse;
 
-public record DeleteCourseCommand(Guid Id) : IRequest<CourseDto>;
+public record DeleteCourseCommand(Guid Id) : IRequest<GetallCourseDto>;
 
-public class DeleteCourseCommandHandler : IRequestHandler<DeleteCourseCommand, CourseDto>
+public class DeleteCourseCommandHandler : IRequestHandler<DeleteCourseCommand, GetallCourseDto>
 {
     private IApplicationDbContext _dbContext;
     private IMapper _mapper;
@@ -20,14 +20,14 @@ public class DeleteCourseCommandHandler : IRequestHandler<DeleteCourseCommand, C
         _mapper = mapper;
     }
 
-    public async Task<CourseDto> Handle(DeleteCourseCommand request, CancellationToken cancellationToken)
+    public async Task<GetallCourseDto> Handle(DeleteCourseCommand request, CancellationToken cancellationToken)
     {
         Course course = FilterIfCourseExsists(request.Id);
 
         _dbContext.Courses.Remove(course);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map<CourseDto>(course);
+        return _mapper.Map<GetallCourseDto>(course);
     }
 
     private Course FilterIfCourseExsists(Guid id)

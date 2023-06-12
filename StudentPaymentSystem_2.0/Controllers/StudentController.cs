@@ -12,15 +12,15 @@ namespace StudentPaymentSystem_2._0.Controllers;
 public class StudentController : ApiBaseController
 {
     [HttpPost]
-    public async ValueTask<ActionResult<StudentDto>> StudentStudentAsync(CreateStudentCommand command)
+    public async ValueTask<ActionResult<GetAllStudentDto>> StudentStudentAsync(CreateStudentCommand command)
     {
-        StudentDto dto = await Mediator.Send(command);
+        GetAllStudentDto dto = await Mediator.Send(command);
 
         return Ok(dto);
     }
 
     [HttpGet("{studentId}")]
-    public async ValueTask<ActionResult<StudentDto>> GetStudentAsync(Guid studentId)
+    public async ValueTask<ActionResult<GetAllStudentDto>> GetStudentAsync(Guid studentId)
     {
         return await Mediator.Send(new GetStudentQuery(studentId));
     }
@@ -32,13 +32,13 @@ public class StudentController : ApiBaseController
     }
 
     [HttpPut]
-    public async ValueTask<ActionResult<StudentDto>> PutStudentAsync(UpdateStudentCommand command)
+    public async ValueTask<ActionResult<GetAllStudentDto>> PutStudentAsync(UpdateStudentCommand command)
     {
         return await Mediator.Send(command);
     }
 
     [HttpDelete("{studentId}")]
-    public async ValueTask<ActionResult<StudentDto>> DeleteStudentAsync(Guid studentId)
+    public async ValueTask<ActionResult<GetAllStudentDto>> DeleteStudentAsync(Guid studentId)
     {
         return await Mediator.Send(new DeleteStudentCommand(studentId));
     }

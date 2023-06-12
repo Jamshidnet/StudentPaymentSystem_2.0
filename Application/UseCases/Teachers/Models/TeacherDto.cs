@@ -1,4 +1,5 @@
-﻿using StudentPaymentSystem.Domein.Entities;
+﻿using StudentPaymentSystem.Application.UseCases.Courses.Models;
+using StudentPaymentSystem.Domein.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,6 @@ namespace StudentPaymentSystem.Application.UseCases.Teachers.Models
         public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public List<Course> Courses { get; set; }
+        public List<CourseDto> Courses { get; set; }
     }
 }

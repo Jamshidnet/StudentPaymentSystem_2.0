@@ -8,7 +8,7 @@ namespace StudentPaymentSystem.Application.UseCases.Courses.Models
 {
     public  class CourseDto
     {
-        public Guid Id  { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -16,6 +16,5 @@ namespace StudentPaymentSystem.Application.UseCases.Courses.Models
         public Guid TeacherId { get; set; }
 
         public decimal Fee { get; set; }
-
     }
 }

@@ -1,16 +1,11 @@
-﻿using StudentPaymentSystem.Domein.Entities;
+﻿namespace StudentPaymentSystem.Application.UseCases.Invoices.Models;
 
-namespace StudentPaymentSystem.Application.UseCases.Invoices.Models
+public class InvoiceDto
 {
-    public class InvoiceDto
-    {
-        public Guid Id { get; set; }
-        public Guid CourseID { get; set; }
+    public Guid Id { get; set; }
+    public Guid CourseID { get; set; }
 
-        public DateTime IssueDate { get; set; }
+    public DateTime IssueDate { get; set; }
 
-        public decimal TotalAmount { get; set; }
-
-        public ICollection<Payment> Payments { get; set; }
-    }
+    public decimal TotalAmount { get; set; }
 }

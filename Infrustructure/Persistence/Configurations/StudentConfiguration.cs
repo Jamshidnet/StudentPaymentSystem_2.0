@@ -8,7 +8,7 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
 {
     public void Configure(EntityTypeBuilder<Student> builder)
     {
-        builder.Navigation(x => x.Courses).AutoInclude();
+      //  builder.Navigation(x => x.Courses).AutoInclude();
         builder.Navigation(x=>x.Payments).AutoInclude();
         builder.HasIndex(x => x.PhoneNumber).IsUnique();
     }
