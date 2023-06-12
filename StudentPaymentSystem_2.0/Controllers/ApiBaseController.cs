@@ -14,6 +14,8 @@ namespace StudentPaymentSystem_2._0.Controllers
 
         public IAppCache? _appCache;
 
-        protected readonly string My_Key = "ThiS iS KeY";
+        public IConfiguration? _configuration;
+       
+       
     }
 }

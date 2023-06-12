@@ -1,6 +1,7 @@
 ﻿using LazyCache;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using StudentPaymentSystem.Application;
 using StudentPaymentSystem.Application.Common.Models;
 using StudentPaymentSystem.Application.UseCases.Invoices.Commands.CreateInvoice;
 using StudentPaymentSystem.Application.UseCases.Invoices.Commands.DeleteInvoice;
@@ -12,9 +13,10 @@ namespace StudentPaymentSystem_2._0.Controllers;
 
 public class InvoiceController : ApiBaseController
 {
-    public InvoiceController(IAppCache appCache)
+    public InvoiceController(IAppCache appCache, IConfiguration configuration)
     {
         _appCache = appCache;
+        _configuration = configuration;
     }
 
     [HttpPost]
@@ -34,7 +36,7 @@ public class InvoiceController : ApiBaseController
     [HttpGet]
     public async ValueTask<ActionResult<PaginatedList<InvoiceDto>>> GetInvoicesWithPaginated([FromQuery] GetAllInvoiceQuery query)
     {
-        return await _appCache.GetOrAddAsync(My_Key,
+        return await _appCache.GetOrAddAsync(_configuration?.GetValue<string>("InvoiceKeyForLazyCache"),
          async x =>
          {
              x.SetAbsoluteExpiration(TimeSpan.FromSeconds(20));

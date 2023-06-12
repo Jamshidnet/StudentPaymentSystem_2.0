@@ -10,15 +10,13 @@ namespace StudentPaymentSystem_2._0.RataLimiters
             builder.Services.AddRateLimiter(options =>
             {
                 options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
-                    RateLimitPartition.GetSlidingWindowLimiter(
+                    RateLimitPartition.GetFixedWindowLimiter(
                         partitionKey: httpContext.User.Identity?.Name ?? httpContext.Request.Headers.Host.ToString(),
-                        factory: partition => new SlidingWindowRateLimiterOptions
+                        factory: partition => new FixedWindowRateLimiterOptions
                         {
-                            AutoReplenishment = false,
-                            PermitLimit = 5,
-                            QueueLimit = 0,
-                            Window = TimeSpan.FromSeconds(30),
-                            SegmentsPerWindow = 2
+                            PermitLimit = 10,
+                            QueueLimit = 5,
+                            Window = TimeSpan.FromSeconds(10)
                         }));
             });
 

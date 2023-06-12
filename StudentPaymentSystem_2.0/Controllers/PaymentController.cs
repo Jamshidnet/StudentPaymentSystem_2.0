@@ -12,9 +12,10 @@ namespace StudentPaymentSystem_2._0.Controllers;
 
 public class PaymentController : ApiBaseController
 {
-    public PaymentController(IAppCache appCache)
+    public PaymentController(IAppCache appCache, IConfiguration configuration)
     {
         _appCache = appCache;
+        _configuration = configuration;
     }
     [HttpPost]
     public async ValueTask<ActionResult<PaymentDto>> PaymentPaymentAsync(CreatePaymentCommand command)
@@ -33,7 +34,7 @@ public class PaymentController : ApiBaseController
     [HttpGet]
     public async ValueTask<ActionResult<PaginatedList<PaymentDto>>> GetPaymentsWithPaginated([FromQuery] GetallPaymentQuery query)
     {
-        return await _appCache.GetOrAddAsync(My_Key,
+        return await _appCache.GetOrAddAsync(_configuration?.GetValue<string>("PaymentKeyForLazyCache"),
           async x =>
           {
               x.SetAbsoluteExpiration(TimeSpan.FromSeconds(20));

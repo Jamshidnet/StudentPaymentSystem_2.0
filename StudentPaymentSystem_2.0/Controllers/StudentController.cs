@@ -13,9 +13,10 @@ namespace StudentPaymentSystem_2._0.Controllers;
 
 public class StudentController : ApiBaseController
 {
-    public StudentController(IAppCache appCache)
+    public StudentController(IAppCache appCache, IConfiguration configuration)
     {
         _appCache = appCache;
+        _configuration = configuration;
     }
 
     [HttpPost]
@@ -35,7 +36,7 @@ public class StudentController : ApiBaseController
     [HttpGet]
     public async ValueTask<ActionResult<PaginatedList<StudentDto>>> GetStudentsWithPaginated([FromQuery] GetAllStudentQuery query)
     {
-        return await _appCache.GetOrAddAsync(My_Key,
+        return await _appCache.GetOrAddAsync(_configuration?.GetValue<string>("StudentKeyForLazyCache"),
            async x =>
            {
                x.SetAbsoluteExpiration(TimeSpan.FromSeconds(20));

@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudentPaymentSystem.Application.Common.Interfaces;
 using StudentPaymentSystem.Domein.Entities;
+using StudentPaymentSystem.Infrustructure.Persistence.Interceptors;
+using System.Reflection;
 
 namespace StudentPaymentSystem.Infrustructure.Persistence
 {
@@ -17,53 +19,41 @@ namespace StudentPaymentSystem.Infrustructure.Persistence
 
         public DbSet<Invoice> Invoices { get; set; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext>? options) : base(options)
-        {
 
-        }
+        private readonly AuditableEntitySaveChangesInterceptor _interceptor;
 
 
         private readonly DbContextOptions<ApplicationDbContext>? options;
-
-        public async ValueTask<T> AddAsync<T>(T @object)
+        
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext>? options,
+            AuditableEntitySaveChangesInterceptor interceptor) : base(options)
         {
-            var context = new ApplicationDbContext(options);
-            if (@object is not null)
-                context.Entry(@object).State = EntityState.Added;
-            await context.SaveChangesAsync();
-            return @object;
+            _interceptor=interceptor;
         }
 
 
 
-        public async ValueTask<T?> GetAsync<T>(params object[] objectIds) where T : class
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var context = new ApplicationDbContext(options);
-            return await context.FindAsync<T>(objectIds);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(
+                Assembly.GetExecutingAssembly());
+
+            foreach (var entity in modelBuilder.Model.GetEntityTypes())
+            {
+                modelBuilder.Entity(entity.Name).Property(typeof(DateTimeOffset), "CreatedDate")
+                    .HasColumnType("timestamptz");
+
+                modelBuilder.Entity(entity.Name).Property(typeof(DateTimeOffset), "UpdatedDate")
+                    .HasColumnType("timestamptz");
+            }
+
+            base.OnModelCreating(modelBuilder);
         }
 
-        public IQueryable<T> GetAll<T>() where T : class
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var context = new ApplicationDbContext(options);
-            return context.Set<T>();
-        }
-
-        public async ValueTask<T> UpdateAsync<T>(T @object)
-        {
-            var context = new ApplicationDbContext(options);
-            if (@object is not null)
-                context.Entry(@object).State = EntityState.Modified;
-            await context.SaveChangesAsync();
-            return @object;
-        }
-
-        public async ValueTask<T> DeleteAsync<T>(T @object)
-        {
-            var context = new ApplicationDbContext(options);
-            if (@object is not null)
-                context.Entry(@object).State = EntityState.Deleted;
-            await context.SaveChangesAsync();
-            return @object;
+            optionsBuilder.AddInterceptors(_interceptor);
         }
     }
 
