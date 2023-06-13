@@ -11,6 +11,8 @@ internal class Program
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         var builder = WebApplication.CreateBuilder(args);
         IConfiguration configuration = builder.Configuration;
+
+
        // LoggingConfigurations.UseLogging(configuration);
         ConfigurationServices.AddRateLimiters(builder);
         // Add services to the container.

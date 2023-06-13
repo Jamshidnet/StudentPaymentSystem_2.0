@@ -34,7 +34,8 @@ public class StudentController : ApiBaseController
     }
 
     [HttpGet]
-    public async ValueTask<ActionResult<PaginatedList<StudentDto>>> GetStudentsWithPaginated([FromQuery] GetAllStudentQuery query)
+    public async ValueTask<ActionResult<PaginatedList<StudentDto>>>
+        GetStudentsWithPaginated([FromQuery] GetAllStudentQuery query)
     {
         return await _appCache.GetOrAddAsync(_configuration?.GetValue<string>("StudentKeyForLazyCache"),
            async x =>
